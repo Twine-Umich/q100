@@ -1,0 +1,8 @@
+read -sv generated-src/Tile.v
+hierarchy -top Tile
+proc; opt; fsm; opt; memory; opt
+techmap; opt
+dfflibmap -liberty vsclib013.lib
+abc -liberty vsclib013.lib
+stat -liberty vsclib013.lib
+clean

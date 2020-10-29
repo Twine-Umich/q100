@@ -6,6 +6,7 @@ gen_dir    = $(base_dir)/generated-src
 out_dir    = $(base_dir)/output_files
 in_dir		= $(base_dir)/input_files
 verilator_dir = $(base_dir)/obj_dir
+synth_stats_file = $(base_dir)/stats.txt
 SBT       = sbt
 SBT_FLAGS = -ivy $(HOME)/.ivy2
 test_dir = $(base_dir)/tests
@@ -31,8 +32,11 @@ $(test): $(test_dir)/config.json $(test_dir)/test_template.cpp
 run-verilator: Verilator-Tile
 	./$< 2>/dev/null
 
+synth: synth.ys $(gen_dir)/Tile.v
+	yosys $< > $(synth_stats_file)
+
 clean:
-	rm -rf $(gen_dir) $(out_dir)/* Verilator-Tile obj_dir $(test_dir)/test.cpp 
+	rm -rf $(gen_dir) $(out_dir)/* Verilator-Tile obj_dir $(test_dir)/test.cpp  $(synth_stats_file)
 
 
 .PHONY: sbt compile verilator clean 
