@@ -1,0 +1,6 @@
+output_files/*
+lib/
+project/
+target/
+obj_dir
+generated-src

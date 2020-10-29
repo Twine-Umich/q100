@@ -1,0 +1,8 @@
+{
+	"raw_dat_file_name":"input_files/sample_input.txt",
+	"raw_output_file_name":"output_files/sample_output.txt",
+	"stats_file_name":"output_files/stats.txt",
+	"num_of_col":4,
+	"num_of_col_expected":2,
+	"XLEN":32
+}
