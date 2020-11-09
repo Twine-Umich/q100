@@ -23,5 +23,5 @@ class ColFilter extends SimpleChiselModule with Q100Params{
     in.dat >>> out.dat
     ctrl.out.ready >>> ctrl.in.ready
 
-    Mux(in.cmp, ctrl.in.valid, false.B) >>> ctrl.out.valid
+    Mux(in.cmp || in.EOF, ctrl.in.valid, false.B) >>> ctrl.out.valid
 }

@@ -47,7 +47,8 @@ cog.outl("	out_dat_file.open(\"%s\",ofstream::out);" % data["raw_output_file_nam
 cog.outl("	stats_file.open(\"%s\",ofstream::out);" % data["stats_file_name"])
 ]]] */
 // [[[end]]]
-
+	string dummy_str;
+	getline(in_dat_file, dummy_str);
 	tb->ctrl_in_valid = 0;
 	int hit_end_of_line = 0;
 	int eof = 0;
