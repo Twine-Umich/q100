@@ -8,7 +8,7 @@ import scala.collection.mutable.ArrayBuffer
 
 class Tile extends SimpleChiselModule with Q100Params{
 
-    // Declare the top layer inputs
+    // Declare the top layer inputs. Don't Change
     val in = IO(Input(new TileInput(4)))
     var out = IO(Output(new TileInput(2)))
     val ctrl = IO(new DecoupledIOCtrl(3,3))
