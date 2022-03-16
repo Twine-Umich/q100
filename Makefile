@@ -30,7 +30,7 @@ $(test): $(test_dir)/config.json $(test_dir)/test_template.cpp
 	cd tests; cog -o test.cpp test_template.cpp ; cd ..
 
 run-verilator: Verilator-Tile
-	./$< 2> /dev/null
+	./$< 2> debug.txt
 
 synth: synth.ys $(gen_dir)/Tile.v
 	yosys $< > $(synth_stats_file)

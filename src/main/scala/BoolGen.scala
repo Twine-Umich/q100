@@ -2,8 +2,8 @@ package q100
 
 import chisel3._
 import chisel3.util._
-import chisel3.simplechisel._
-import chisel3.simplechisel.util._
+import chisel3.twine._
+import chisel3.twine.util._
 
 
 object BoolGenOP extends Enumeration {
@@ -22,7 +22,7 @@ class BoolGenOutput extends Bundle with Q100Params{
 }
 
 import BoolGenOP._
-class BoolGen(val boolGenOp:BoolGenOP, val cmpRef:UInt) extends SimpleChiselModule with Q100Params{
+class BoolGen(val boolGenOp:BoolGenOP, val cmpRef:UInt) extends TwineModule with Q100Params{
     val in = IO(Input(new BoolGenInput))
     val out = IO(Output(new BoolGenOutput))
     val ctrl = IO(new DecoupledIOCtrl(4,4))

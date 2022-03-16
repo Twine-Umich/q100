@@ -92,8 +92,8 @@ import cog
 import json
 f = open('config.json')
 data = json.load(f)
-for i in range(0,data["num_of_col_expected"]):
-	cog.outl("				out_dat_file << tb->out_dat_%s<<\" \";" %i)
+cog.outl("				out_dat_file << tb->out_reference<<\" \";" )
+cog.outl("				out_dat_file << tb->out_dat<<\" \";" )
 ]]] */
 // [[[end]]]
 				out_dat_file<<endl;

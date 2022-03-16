@@ -2,8 +2,8 @@ package q100
 
 import chisel3._
 import chisel3.util._
-import chisel3.simplechisel._
-import chisel3.simplechisel.util._
+import chisel3.twine._
+import chisel3.twine.util._
 import scala.collection.immutable._
 
 // Supported operations: ADD, MINUS, GT, GET, LT, LET, EQ, NEQ
@@ -26,13 +26,13 @@ trait Q100Params{
     val XLEN = 32
     val NUM_OF_COL = 4
     
-    val COL_SELECTED = List(0,1,2)
-    val CONDITIONS = List(
-        COND_OP(1, 3.U, BoolGenOP.GT),
-        COND_OP(2, 11.U, BoolGenOP.LT)
+    val COL_SELECTED = List(0,1)
+    val CONDITIONS:List[COND_OP] = List(
+        COND_OP(1, 3.U, BoolGenOP.GT)    
     )
-    val ALUOPS = List(
-        ALU_OP(1,2, AluOp.ADD)
+    val ALUOPS:List[ALU_OP] = List(
+        // ALU_OP(1,2, AluOp.ADD)
     )
-    val GROUPBY:Option[Int] = Some(0)
+    // val GROUPBY:Option[Int] = Some(0)
+    val GROUPBY:Option[Int] = None
 }

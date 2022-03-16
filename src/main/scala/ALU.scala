@@ -2,8 +2,8 @@ package q100
 
 import chisel3._
 import chisel3.util._
-import chisel3.simplechisel._
-import chisel3.simplechisel.util._
+import chisel3.twine._
+import chisel3.twine.util._
 
 object AluOp extends Enumeration {
   type AluOp = Value
@@ -20,7 +20,7 @@ class ALUOutput extends Bundle with Q100Params{
     val EOF = Bool() // This would indicate the end of whole column. It would be one cycle behind the valid row
 }
 import AluOp._
-class ALU(val opType: AluOp) extends SimpleChiselModule with Q100Params{
+class ALU(val opType: AluOp) extends TwineModule with Q100Params{
     val in = IO(Input(new ALUInput))
     val out = IO(Output(new ALUOutput))
     val ctrl = IO(new DecoupledIOCtrl(4,4))

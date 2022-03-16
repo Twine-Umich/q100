@@ -2,8 +2,8 @@ package q100
 
 import chisel3._
 import chisel3.util._
-import chisel3.simplechisel._
-import chisel3.simplechisel.util._
+import chisel3.twine._
+import chisel3.twine.util._
 
 class AggregatorIO extends Bundle with Q100Params{
     val reference = UInt(XLEN.W)
@@ -11,7 +11,7 @@ class AggregatorIO extends Bundle with Q100Params{
     val EOF = Bool() // This would indicate the end of whole column. It would be one cycle behind the valid row
 }
 
-class Aggregator extends SimpleChiselModule with Q100Params{
+class Aggregator extends TwineModule with Q100Params{
     val in = IO(Input(new AggregatorIO))
     val out = IO(Output(new AggregatorIO))
     val ctrl = IO(new DecoupledIOCtrl(4,4))
@@ -30,7 +30,7 @@ class Aggregator extends SimpleChiselModule with Q100Params{
             false.B >>> nextEOF
             true.B >>> ctrl.out.valid
             true.B >>> ctrl.in.ready 
-            SimpleChiselBundle(0.U, 0.U, nextEOF) >>> out
+            TwineBundle(0.U, 0.U, nextEOF) >>> out
         }.otherwise{
             when(ctrl.in.valid){ // There is an input
                 when(in.EOF && crntValid){ // Push anyway
@@ -40,29 +40,29 @@ class Aggregator extends SimpleChiselModule with Q100Params{
                     0.U >>> crntRef
                     0.U >>> crntSum
                     true.B >>> nextEOF
-                    SimpleChiselBundle(crntRef, crntSum, false.B) >>> out
+                    TwineBundle(crntRef, crntSum, false.B) >>> out
                 }.elsewhen(maybePush){
                     true.B >>> ctrl.out.valid
                     true.B >>> ctrl.in.ready
-                    SimpleChiselBundle(in.reference, in.dat) >>> SimpleChiselBundle(crntRef, crntSum)
-                    SimpleChiselBundle(crntRef, crntSum, false.B) >>> out
+                    TwineBundle(in.reference, in.dat) >>> TwineBundle(crntRef, crntSum)
+                    TwineBundle(crntRef, crntSum, false.B) >>> out
                 }.elsewhen(maybeAccumulate){
                     false.B >>> ctrl.out.valid
                     true.B >>> ctrl.in.ready
                     (crntSum + in.dat) >>> crntSum
-                    SimpleChiselBundle(0.U, 0.U, false.B) >>> out
+                    TwineBundle(0.U, 0.U, false.B) >>> out
                 }.otherwise{ // this means the current is not valid
                     false.B >>> ctrl.out.valid
                     true.B >>> ctrl.in.ready
                     true.B >>> crntValid
                     in.EOF >>> nextEOF
-                    SimpleChiselBundle(in.reference, in.dat) >>> SimpleChiselBundle(crntRef, crntSum)
-                    SimpleChiselBundle(0.U, 0.U, false.B) >>> out                
+                    TwineBundle(in.reference, in.dat) >>> TwineBundle(crntRef, crntSum)
+                    TwineBundle(0.U, 0.U, false.B) >>> out                
                 }
             }.otherwise{ // input not valid, nothing changes
                 ctrl.out.valid := false.B
                 ctrl.in.ready := true.B
-                SimpleChiselBundle(0.U, 0.U, false.B) >>> out
+                TwineBundle(0.U, 0.U, false.B) >>> out
             }
         }
     }.otherwise{ // when we are not able to push
@@ -71,24 +71,24 @@ class Aggregator extends SimpleChiselModule with Q100Params{
                 false.B >>> ctrl.out.valid
                 true.B >>> ctrl.in.ready
                 (crntSum + in.dat) >>> crntSum
-                SimpleChiselBundle(0.U, 0.U, false.B) >>> out
+                TwineBundle(0.U, 0.U, false.B) >>> out
             }.elsewhen(~crntValid){
                 false.B >>> ctrl.out.valid
                 true.B >>> ctrl.in.ready
                 true.B >>> crntValid
                 in.EOF >>> nextEOF
-                SimpleChiselBundle(in.reference, in.dat) >>> SimpleChiselBundle(crntRef, crntSum)
-                SimpleChiselBundle(0.U, 0.U, false.B) >>> out        
+                TwineBundle(in.reference, in.dat) >>> TwineBundle(crntRef, crntSum)
+                TwineBundle(0.U, 0.U, false.B) >>> out        
             }
             .otherwise{ // this means nothing changes
                 false.B >>> ctrl.out.valid
                 false.B >>> ctrl.in.ready
-                SimpleChiselBundle(0.U, 0.U, false.B) >>> out               
+                TwineBundle(0.U, 0.U, false.B) >>> out               
             }
         }.otherwise{ // input not valid, nothing changes
             ctrl.out.valid := false.B
             ctrl.in.ready := true.B
-            SimpleChiselBundle(0.U, 0.U, false.B) >>> out               
+            TwineBundle(0.U, 0.U, false.B) >>> out               
         }
     }
 }

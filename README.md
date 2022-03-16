@@ -1,4 +1,4 @@
-# Q100 in SimpleChisel
+# Q100 in Twine
 
 ## Menu
 
@@ -11,7 +11,7 @@
 
 ## Overview
 
-Q100 in SimpleChisel is a design based on the [Q100](https://dl.acm.org/doi/10.1145/2644865.2541961) paper. This repo composes of multiple components, a testing framework built with Verilator, and a synthesis configuration built with Yosys.
+Q100 in Twine is a design based on the [Q100](https://dl.acm.org/doi/10.1145/2644865.2541961) paper. This repo composes of multiple components, a testing framework built with Verilator, and a synthesis configuration built with Yosys.
 
 The basic timing assumptions of this design is that a transaction happens when the valid and ready are `hi` in the same cycle. Whenever a stream is completed, set the EOF signal to hi for one cycle to indicate the stream is over.
 As an example, assume we want to compute a data stream composed of data 1, 2, 3.
